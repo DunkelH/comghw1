@@ -1,11 +1,12 @@
 # comghw1
 202111337 lee dong hyun computer graphics homework1
 
-# Description
+# Description - Main_EmptyViewer.cpp
 
 int Width = 1280; 
 int Height = 720; 
 std::vector<float> OutputImage; 
+
 **창너비와 높이, 렌더링된 이미지 데이터를 저장하는 배열을 전역변수로 설정**
 
 class Ray { 
@@ -15,6 +16,7 @@ public:
  Ray(const vec3& o, const vec3& d) : origin(o), direction(normalize(d)) 
 {} 
 }; 
+
 **광선을 표현하는 클래스, 광선의 시작점과 광선의 방향을 변수로 선언**
 
 class Camera { 
@@ -31,6 +33,7 @@ depth)
   return Ray(eye, vec3(u, v, -d)); 
  } 
 }; 
+
 **카메라를 표현하는 클래스, 카메라의 위치 및 뷰 평면의 경계값 및 거리를 변수
 로 선언, 주어진 좌표에 대해 광선을 생성하는 함수를 선언**
 
@@ -38,6 +41,7 @@ class Surface {
 public: 
  virtual bool intersect(const Ray& ray) const = 0; 
 }; 
+
 **모든 표면 객체의 기본 클래스**
 
 class Sphere : public Surface { 
@@ -54,6 +58,7 @@ public:
   return (discriminant > 0); 
  } 
 }; 
+
 **구를 표현하는 클래스, 구의 중심과 반지름 선언 및 광선과 구의 교차 여부를 판
 단하는 함수 선언**
 
@@ -67,6 +72,7 @@ public:
   return (t > 0); 
  } 
 };
+
 **평면을 표현하는 클래스, 평면의 y 위치와 광선과 평면의 교차 여부를 판단하는 
 함수 생성**
 
@@ -85,18 +91,21 @@ public:
   return false; 
  } 
 };
+
 **장면을 구성하는 클래스, 장면 내 모든 객체와 교차 여부를 판단하는 함수를 선
 언**
 
 OutputImage.clear(); 
 Camera camera(vec3(0, 0, 0), -0.1f, 0.1f, -0.1f, 0.1f, 0.1f); 
 Scene scene; 
+
 **객체 선언 및 카메라 초기화**
 
 scene.addObject(new Sphere(vec3(-4, 0, -7), 1)); 
 scene.addObject(new Sphere(vec3(0, 0, -7), 2)); 
 scene.addObject(new Sphere(vec3(4, 0, -7), 1)); 
 scene.addObject(new Plane(-2)); 
+
 **장면에 구와 평면 추가**
 
 Ray ray = camera.generateRay(i, j, Width, Height);  
@@ -105,6 +114,7 @@ vec3 color = hit ? vec3(1.0f, 1.0f, 1.0f) : vec3(0.0f, 0.0f, 0.0f);
 OutputImage.push_back(color.x); 
 OutputImage.push_back(color.y); 
 OutputImage.push_back(color.z);
+
 **각 픽셀에 대해 레이 생성 및 교차 검사 수행 
 픽셀별 광선 생성, 장면 내 객체와의 교차 검사 진행 
 객체와 교차하면 흰색으로 처리, 그렇지 않으면 검은색으로 처리**
